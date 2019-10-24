@@ -66,3 +66,53 @@ class custom_datagen(tf.keras.utils.Sequence):
 
         resized = cv2.resize(image, dim, interpolation = inter)
         return resized
+    
+    
+    
+class Detection(tf.keras.utils.Sequence):
+    def __init__(self,csv_file,batch,shuffle=True):
+        self.csv_file = pd.read_csv(csv_file)
+        self.batch = batch
+        self.shuffle = shuffle
+        self.indexes = np.arange(self.csv_file.shape[0])
+        
+
+    def __len__(self):
+        return None
+    
+    def on_epoch_end(self):
+        if self.shuffle == True:
+            return np.random.shuffle(self.indexes)
+    
+    def __getitem__(self,index):
+        raw_id = []
+        xmin = []
+        ymin = []
+        xmax = []
+        ymax = []
+        objec = []
+        
+        idxx = self.indexes[index*self.batch:(index+1)*self.batch]
+        components = [self.__process__(j) for j in idxx]
+        for (image,x_min,y_min,x_max,y_max,objs) in components:
+            raw_id.append(image)
+            xmin.append(x_min)
+            ymin.append(y_min)
+            xmax.append(x_max)
+            ymax.append(y_max)
+            objec.append(objs)
+        
+        x_ = np.array(raw_id)
+        y_ = np.array([xmin,ymin,xmax,ymax,objec])
+        return x_,y_
+        
+        
+    def __process__(self,k):
+        checks = self.csv_file
+        im,xmi,xma,ymi,yma,cla = checks.loc[k]["image"],checks.loc[k]["xmin"],checks.loc[k]["ymin"],checks.loc[k]["xmax"],checks.loc[k]["ymax"],checks.loc[k]["label"]
+        return im,xmi,xma,ymi,yma,cla
+    
+        
+        
+parse = Detection("annotations.csv",10)
+x,y = parse.__getitem__(0)
