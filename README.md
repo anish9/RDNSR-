@@ -3,7 +3,7 @@ image super resolution algorithm
 #### Unofficial implementation of [RDNSR](https://arxiv.org/pdf/1802.08797.pdf)
 
 
-#### - Requirements (core)
+#### Requirements
 * Tensorflow 1.13 <=
 * OpenCV
 * Albumenations
