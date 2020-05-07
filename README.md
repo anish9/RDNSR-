@@ -14,5 +14,8 @@ customize the required in the config.py --(EXAMPLE(LEARNING_RATE, TRAIN_IMAGE_CO
 customize the dataset path in Train.py
 
 ```
-
+#### Note
+```
+to support dynamic tensors batch size cannot exceed 1.  
+```
 
