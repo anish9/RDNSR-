@@ -4,7 +4,7 @@ image super resolution algorithm
 
 
 #### Requirements
-* Tensorflow 1.13 <=
+* Tensorflow 1.12 <=
 * OpenCV
 * Albumenations
 
